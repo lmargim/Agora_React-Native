@@ -1,30 +1,27 @@
 import { Assets as NavigationAssets } from '@react-navigation/elements';
-import { Asset } from 'expo-asset';
-import * as SplashScreen from 'expo-splash-screen';
+import "@/global.css";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import * as React from 'react';
-import { Navigation } from './navigation';
+import { HomeScreen } from './navigation/screens/Home';
+import  AltaScreen  from './navigation/screens/Alta';
+import { PublicacionScreen } from './navigation/screens/Publicacion';
+import { createStaticNavigation } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
-Asset.loadAsync([
-  ...NavigationAssets,
-  require('./assets/newspaper.png'),
-  require('./assets/bell.png'),
-]);
+const MyDrawer = createDrawerNavigator({
+  screens: {
+    Home: HomeScreen,
+    Alta: AltaScreen,
+    Publicaciones: PublicacionScreen,
+  },
+});
 
-SplashScreen.preventAutoHideAsync();
+const Navigation = createStaticNavigation(MyDrawer);
 
-export function App() {
+export default function App() {
   return (
-    <Navigation
-      linking={{
-        enabled: 'auto',
-        prefixes: [
-          // Change the scheme to match your app's scheme defined in app.json
-          'helloworld://',
-        ],
-      }}
-      onReady={() => {
-        SplashScreen.hideAsync();
-      }}
-    />
+    <GluestackUIProvider mode="light">
+      <Navigation />
+    </GluestackUIProvider>
   );
 }
